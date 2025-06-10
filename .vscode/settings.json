@@ -1,9 +1,5 @@
 {
-  "code-runner.executorMap": {
-    "typescript": "tsx",
-    "javascript": "node",
-  },
-  "code-runner.clearPreviousOutput": true,
-  "code-runner.saveFileBeforeRun": true,
-  // "code-runner.showExecutionMessage": false,
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
 }
