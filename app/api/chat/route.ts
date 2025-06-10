@@ -1,4 +1,4 @@
-import { errorHandler } from '@/utils/errorHandler';
+import { errorHandler } from '@/lib/errorHandler';
 import { deepseek } from '@ai-sdk/deepseek';
 import { streamText, tool } from 'ai';
 import { z } from 'zod';
@@ -6,10 +6,12 @@ import { z } from 'zod';
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  const { messages } = await req.json();
+  const { messages, customKey } = await req.json();
 
+  console.log("Custom key:", customKey);
+  
   const result = streamText({
-    model: deepseek('deepseek-chat'),
+    model: deepseek('deepseek-reasoner'),
     messages,
     tools: {
       weather: tool({
@@ -44,5 +46,8 @@ export async function POST(req: Request) {
 
   return result.toDataStreamResponse({
     getErrorMessage: errorHandler,
+    sendReasoning: true,
+    sendSources: true,
+    sendUsage: true,
   });
 }
