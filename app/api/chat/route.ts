@@ -1,4 +1,5 @@
-\import { openai } from '@ai-sdk/openai';
+import { errorHandler } from '@/utils/errorHandler';
+import { deepseek } from '@ai-sdk/deepseek';
 import { streamText, tool } from 'ai';
 import { z } from 'zod';
 
@@ -8,7 +9,7 @@ export async function POST(req: Request) {
   const { messages } = await req.json();
 
   const result = streamText({
-    model: openai('gpt-4o'),
+    model: deepseek('deepseek-chat'),
     messages,
     tools: {
       weather: tool({
@@ -41,5 +42,7 @@ export async function POST(req: Request) {
     },
   });
 
-  return result.toDataStreamResponse();
+  return result.toDataStreamResponse({
+    getErrorMessage: errorHandler,
+  });
 }
